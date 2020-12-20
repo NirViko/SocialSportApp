@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "155152110605",
+    "firebase_url": "https://socialsportapp-7021a-default-rtdb.firebaseio.com",
+    "project_id": "socialsportapp-7021a",
+    "storage_bucket": "socialsportapp-7021a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:155152110605:android:40a03e673027641cdfb144",
+        "android_client_info": {
+          "package_name": "com.example.socialsportapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "155152110605-8gefi567nbmoivt93tbvr4uspti37pk3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeQexl0e_l-ZxJGUy2RtHHtweoXb3iak0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "155152110605-8gefi567nbmoivt93tbvr4uspti37pk3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

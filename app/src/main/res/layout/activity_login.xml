@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Login">
+
+    <EditText
+        android:id="@+id/PasswordLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="110dp"
+        android:layout_marginLeft="110dp"
+        android:layout_marginTop="430dp"
+        android:hint="Password"
+        android:ems="10"
+        android:inputType="textPassword"
+        tools:layout_editor_absoluteX="205dp"
+        tools:layout_editor_absoluteY="319dp" />
+
+    <EditText
+        android:id="@+id/emailID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="E-mail"
+        android:inputType="textEmailAddress"
+        tools:layout_editor_absoluteX="158dp"
+        tools:layout_editor_absoluteY="174dp"
+        android:layout_marginStart="110dp"
+        android:layout_marginLeft="110dp"
+        android:layout_marginTop="370dp"
+        />
+
+    <Button
+        android:id="@+id/loginbtn"
+
+        android:text="Log-in"
+        tools:layout_editor_absoluteX="120dp"
+        tools:layout_editor_absoluteY="62dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginLeft="190dp"
+        android:layout_marginTop="500dp"
+        android:layout_width="190dp"
+        android:layout_height="63dp"
+        app:backgroundTint="#AB357FB1"
+        />
+
+    <TextView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="175dp"
+        android:layout_marginLeft="170dp"
+        android:layout_marginTop="200dp"
+        android:text="Login"
+        android:textColor="#090909"
+        android:textSize="30sp" />
+
+
+</RelativeLayout>

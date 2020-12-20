@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/register"
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="460dp"
+        android:layout_width="221dp"
+        android:layout_height="63dp"
+        android:text="Register"
+        app:backgroundTint="#AB357FB1" />
+
+    <Button
+        android:id="@+id/login"
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="400dp"
+        android:layout_width="221dp"
+        android:layout_height="63dp"
+        android:text="Login"
+        app:backgroundTint="#AB357FB1" />
+
+    <TextView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="120dp"
+        android:layout_marginLeft="170dp"
+        android:layout_marginTop="200dp"
+        android:text="Social Sports"
+        android:textColor="#090909"
+        android:textSize="30sp" />
+</RelativeLayout>

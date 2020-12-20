@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".adapterProfile">
+
+    <TextView
+        android:id="@+id/start2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="10dp"
+        android:text="Start"
+        android:textColor="#26FF00"
+        android:textSize="10sp"
+
+        />
+
+    <TextView
+        android:id="@+id/end2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp"
+        android:text="End"
+        android:textColor="#FF0101"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/starttime2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="37dp"
+        android:layout_marginLeft="37dp"
+        android:layout_marginTop="25dp"
+        android:text="00:00"
+        android:textColor="#0C0C0C"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/endtime2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="97dp"
+        android:layout_marginLeft="97dp"
+        android:layout_marginTop="25dp"
+        android:text="00:00"
+        android:textColor="#070707"
+        android:textSize="10sp" />
+
+
+
+    <TextView
+        android:id="@+id/fullname2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="150dp"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="10dp"
+        android:text="Full-Name"
+        android:textColor="#0B0A0A"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/fullnameprint2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="150dp"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="25dp"
+        android:text="Nir Vaknin"
+        android:textColor="#121111"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/phone2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="230dp"
+        android:layout_marginLeft="230dp"
+        android:layout_marginTop="10dp"
+        android:text="Phone"
+        android:textColor="#070707"
+        android:textSize="10dp" />
+
+    <TextView
+        android:id="@+id/phoneprint2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="215dp"
+        android:layout_marginLeft="215dp"
+        android:layout_marginTop="25dp"
+        android:text="052-6485798"
+        android:textColor="#101010"
+        android:textSize="10sp" />
+
+    <Button
+        android:id="@+id/clickbtnf"
+
+        android:layout_width="71dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="300dp"
+        android:layout_marginLeft="300dp"
+        android:layout_marginTop="5dp"
+        android:text="TIME"
+        app:backgroundTint="#200808" />
+
+
+
+</RelativeLayout>

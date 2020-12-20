@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".register">
+
+    <Button
+        android:id="@+id/btnReg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="165dp"
+        android:layout_marginLeft="165dp"
+        android:layout_marginTop="500dp"
+        android:text="Register"
+        app:backgroundTint="#AB357FB1" />
+
+
+    <EditText
+        android:id="@+id/DateReg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="date"
+        android:layout_marginStart="115dp"
+        android:layout_marginLeft="170dp"
+        android:layout_marginTop="390dp"
+        android:hint="Date of birth"
+
+        />
+    
+
+    <TextView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="165dp"
+        android:layout_marginLeft="170dp"
+        android:layout_marginTop="200dp"
+        android:text="Register"
+        android:textColor="#090909"
+        android:textSize="30sp" />
+
+    <EditText
+        android:id="@+id/EmailAddress2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="E-mail"
+        android:inputType="textEmailAddress"
+        android:layout_marginStart="115dp"
+        android:layout_marginLeft="170dp"
+        android:layout_marginTop="340dp"
+
+        />
+
+    <EditText
+        android:id="@+id/PasswordReg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:hint="Password"
+        android:layout_marginStart="115dp"
+        android:layout_marginLeft="170dp"
+        android:layout_marginTop="440dp"
+
+        />
+
+    <EditText
+        android:id="@+id/fullname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:layout_marginStart="115dp"
+        android:layout_marginLeft="170dp"
+        android:layout_marginTop="290dp"
+        android:hint="Full Name"
+        />
+
+
+</RelativeLayout>
