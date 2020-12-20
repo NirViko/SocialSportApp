@@ -39,7 +39,7 @@ public class register extends AppCompatActivity
     private Button registerBtn;
     private String sFullName,sEmail,sBirthday,sPassword;
     private FirebaseAuth mFirebaseAuth;
-    User newUser ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
