@@ -17,20 +17,6 @@
         app:backgroundTint="#AB357FB1" />
 
 
-    <EditText
-        android:id="@+id/DateReg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="date"
-        android:layout_marginStart="115dp"
-        android:layout_marginLeft="170dp"
-        android:layout_marginTop="390dp"
-        android:hint="Date of birth"
-
-        />
-    
-
     <TextView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
@@ -46,12 +32,12 @@
         android:id="@+id/EmailAddress2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="E-mail"
-        android:inputType="textEmailAddress"
         android:layout_marginStart="115dp"
         android:layout_marginLeft="170dp"
         android:layout_marginTop="340dp"
+        android:ems="10"
+        android:hint="E-mail"
+        android:inputType="textEmailAddress"
 
         />
 
@@ -59,12 +45,12 @@
         android:id="@+id/PasswordReg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:hint="Password"
         android:layout_marginStart="115dp"
         android:layout_marginLeft="170dp"
-        android:layout_marginTop="440dp"
+        android:layout_marginTop="390dp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
 
         />
 
