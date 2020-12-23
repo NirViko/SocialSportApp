@@ -7,7 +7,6 @@
     tools:context=".add">
 
 
-
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
@@ -15,9 +14,12 @@
         android:layout_marginStart="70dp"
         android:layout_marginLeft="160dp"
         android:layout_marginTop="20dp"
-        android:text="Add New Activity"
+        android:background="#23673AB7"
+        android:text="@string/add_new_activity"
+        android:textColor="#673AB7"
+        android:textColorHighlight="#9C27B0"
         android:textSize="30sp"
-       />
+        android:textStyle="bold|italic" />
 
     <TextView
         android:id="@+id/textView1"
@@ -91,17 +93,16 @@
         />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/etAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
         android:layout_marginStart="120dp"
         android:layout_marginLeft="300dp"
         android:layout_marginTop="335dp"
+        android:ems="10"
+        android:hint="Street "
 
-        />
+        android:inputType="textPersonName" />
 
     <TextView
         android:id="@+id/textView6"
@@ -115,16 +116,16 @@
         />
 
     <EditText
-        android:id="@+id/editTextNumber2"
+        android:id="@+id/etParticipants"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
         android:layout_marginStart="120dp"
         android:layout_marginLeft="160dp"
         android:layout_marginTop="410dp"
+        android:ems="10"
+        android:hint="Max 100"
 
-        />
+        android:inputType="number" />
 
 
     <TextView
@@ -133,7 +134,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="160dp"
-        android:layout_marginTop="505dp"
+        android:layout_marginTop="490dp"
         android:text="Image"
 
         />
@@ -154,7 +155,6 @@
         />
 
 
-
     <Button
         android:id="@+id/StartBtn"
         android:layout_width="wrap_content"
@@ -162,7 +162,8 @@
         android:layout_marginStart="120dp"
         android:layout_marginLeft="170dp"
         android:layout_marginTop="200dp"
-        android:text="Start" />
+        android:text="@string/start"
+        app:backgroundTint="#CD673AB7" />
 
     <Button
         android:id="@+id/EndBtn"
@@ -171,16 +172,18 @@
         android:layout_marginStart="240dp"
         android:layout_marginLeft="270dp"
         android:layout_marginTop="200dp"
-        android:text="END" />
+        android:text="@string/end"
+        app:backgroundTint="#CD673AB7" />
 
     <Button
         android:id="@+id/Createbtn"
-        android:layout_width="wrap_content"
+        android:layout_width="330dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="300dp"
-        android:layout_marginTop="550dp"
-        android:text="Create" />
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="525dp"
+        android:text="@string/create"
+        app:backgroundTint="#959C27B0" />
 
     <Button
         android:id="@+id/Imagebtn"
@@ -188,8 +191,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="210dp"
         android:layout_marginLeft="300dp"
-        android:layout_marginTop="490dp"
-        android:text="ADD image" />
+        android:layout_marginTop="475dp"
+        android:text="@string/add_image"
+        app:backgroundTint="#CD673AB7" />
 
 
     <Button
@@ -199,7 +203,8 @@
         android:layout_marginStart="220dp"
         android:layout_marginLeft="300dp"
         android:layout_marginTop="140dp"
-        android:text="Pick Date" />
+        android:text="@string/pick_date"
+        app:backgroundTint="#CD673AB7" />
 
 
 

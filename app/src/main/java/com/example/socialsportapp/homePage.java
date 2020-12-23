@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 
@@ -46,6 +47,7 @@ public class homePage extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -57,6 +59,8 @@ public class homePage extends AppCompatActivity {
         addBtn = (Button)findViewById(R.id.Add);
         logOutbtn = (Button) findViewById(R.id.LogoutBtn);
         //
+
+
 
         //Spinner Activity//
         spinner = (Spinner) findViewById(R.id.spinnerDays);
@@ -81,6 +85,7 @@ public class homePage extends AppCompatActivity {
         spinnerSport.setAdapter(adaptersportiv);
 
 
+
         EventHandler();
         logOutbtn.setOnClickListener(new View.OnClickListener() { 
             @Override
@@ -95,9 +100,10 @@ public class homePage extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                createNewContentDiaglog();
+                createNewContentDialog();
             }
         });
+
 
     }
 
@@ -136,7 +142,7 @@ public class homePage extends AppCompatActivity {
 
     }
 
-    public void createNewContentDiaglog()
+    public void createNewContentDialog()
     {
 
 
@@ -197,4 +203,5 @@ public class homePage extends AppCompatActivity {
         dialog = dialogBuilder.create();
         dialog.show();
     }
-}
+
+    }
