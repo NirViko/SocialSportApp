@@ -14,7 +14,9 @@
     <string name="end">END</string>
     <string name="add_image">ADD image</string>
     <string name="add_new_activity">Add New Activity</string>
+
     <string-array name="array_names">
+        <item>Day</item>
         <item>Sunday</item>
         <item>Monday</item>
         <item>Tuesday</item>
@@ -24,6 +26,7 @@
     </string-array>
 
     <string-array name="typs_sport">
+        <item>Type of activity</item>
         <item>Football</item>
         <item>Basketball</item>
         <item>Tennies</item>
@@ -32,6 +35,7 @@
 
 
     <string-array name="array_ofCitys">
+        <item>City</item>
         <item>Ashdod</item>
         <item>Tel-Aviv</item>
         <item>Haifa</item>

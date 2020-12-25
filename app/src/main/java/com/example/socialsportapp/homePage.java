@@ -1,32 +1,45 @@
 package com.example.socialsportapp;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.internal.RecaptchaActivity;
 
 import java.util.Calendar;
 
-public class homePage extends AppCompatActivity {
+public class homePage extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
 
 
     private Button addBtn;
     private Button endBtn;
+    private Uri pickimage;
     private Spinner spinner;
     private Button startBtn;
+    private Button Imagebtn;
     private Button logOutbtn;
     private AlertDialog dialog;
     private Spinner spinnerCity;
@@ -34,15 +47,20 @@ public class homePage extends AppCompatActivity {
     private Spinner spinnerSport;
     private int hourStart,hourEnd;
     private Button datebtn,listBtn;
+    private Spinner spinnerCityAdd;
     private Context mContext = this;
+    private Spinner TypeOfActivityAdd;
     private FirebaseAuth mFireBaseAuth;
     private AlertDialog.Builder dialogBuilder;
     private ArrayAdapter<CharSequence> adapter;
     private ArrayAdapter<CharSequence> adapterCity;
     private ArrayAdapter<CharSequence> adaptersportiv;
-    private String selected , selectedSport , selectedCity;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     private String  fullName , phoneNum , startTime , endTime ;
+    private String selected , selectedSport , selectedCity,selectedCityAdd, selectedSportAdd;
+
+    static int PReqCode = 1;
+    static int REQUESCODE = 1;
 
 
 
@@ -120,7 +138,7 @@ public class homePage extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-     spinnerSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
          @Override
          public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
              selectedSport = parent.getItemAtPosition(position).toString();
@@ -153,8 +171,12 @@ public class homePage extends AppCompatActivity {
         //Add Activity//
 
         Calendar calender = Calendar.getInstance();
+        spinnerCityAdd = (Spinner) contactPopupView.findViewById(R.id.spinnerCity);
+        TypeOfActivityAdd = (Spinner) contactPopupView.findViewById(R.id.TypeOfActivityAdd);
+        Imagebtn = (Button)contactPopupView.findViewById(R.id.Imagebtn);
         startBtn = (Button)contactPopupView.findViewById(R.id.StartBtn);
         endBtn = (Button)contactPopupView.findViewById(R.id.EndBtn);
+        datebtn = (Button)contactPopupView.findViewById(R.id.Datebtn);
         final int minute = calender.get(Calendar.MINUTE);
         final int hour = calender.get(Calendar.HOUR_OF_DAY);
         //
@@ -198,10 +220,74 @@ public class homePage extends AppCompatActivity {
             }
         });
 
+        Imagebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+            }
+        });
+
+        datebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDailog();
+            }
+        });
+
+
+        spinnerCityAdd.setAdapter(adapterCity);
+        TypeOfActivityAdd.setAdapter(adaptersportiv);
+        selectedCityAdd = selectedCity;
+        selectedSportAdd = selectedSport;
 
         dialogBuilder.setView(contactPopupView);
         dialog = dialogBuilder.create();
         dialog.show();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            pickimage = data.getData();
+        }
     }
+
+
+
+
+    private void openGallery()
+    {
+        //Open gallery intent and wait for user to pick an image
+        Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        galleryIntent.setType("image/*");
+        startActivityForResult(galleryIntent,PReqCode);
+    }
+
+
+
+
+
+
+    private void showDatePickerDailog()
+    {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                this,
+                Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.MONTH),
+                Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+
+                );
+        datePickerDialog.show();
+
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            //get the date here!!
+    }
+}
