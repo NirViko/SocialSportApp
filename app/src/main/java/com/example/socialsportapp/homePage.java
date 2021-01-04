@@ -22,12 +22,20 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.internal.RecaptchaActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 
@@ -37,33 +45,41 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
     private Button addBtn;
     private Button endBtn;
     private Uri pickimage;
+    private String getDate;
     private Spinner spinner;
     private Button startBtn;
     private Button Imagebtn;
+    private int countOfchild;
     private Button logOutbtn;
+    private Button createbtn;
     private AlertDialog dialog;
     private Spinner spinnerCity;
     private int minStart,minEnd;
     private Spinner spinnerSport;
+    private ListView getListView;
     private int hourStart,hourEnd;
     private Button datebtn,listBtn;
     private Spinner spinnerCityAdd;
     private Context mContext = this;
     private Spinner TypeOfActivityAdd;
     private FirebaseAuth mFireBaseAuth;
+    private DatabaseReference mDatabase;
+    private ActivitysOfUser makeActivity;
     private AlertDialog.Builder dialogBuilder;
     private ArrayAdapter<CharSequence> adapter;
+    private EditText etAddress ,etParticipants;
     private ArrayAdapter<CharSequence> adapterCity;
     private ArrayAdapter<CharSequence> adaptersportiv;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
-    private String  fullName , phoneNum , startTime , endTime ;
+    private String  fullName , phoneNum , startTime , endTime, pickimageadd ;
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private String selected , selectedSport , selectedCity,selectedCityAdd, selectedSportAdd;
 
+// ...
+
+//Static
     static int PReqCode = 1;
     static int REQUESCODE = 1;
-
-
-
 
 
     @Override
@@ -72,13 +88,15 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
+        //Connect to data base
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        //
+
 
         //btn Of this Activity
         addBtn = (Button)findViewById(R.id.Add);
         logOutbtn = (Button) findViewById(R.id.LogoutBtn);
         //
-
-
 
         //Spinner Activity//
         spinner = (Spinner) findViewById(R.id.spinnerDays);
@@ -97,6 +115,10 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
         adaptersportiv.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //
 
+
+        //ListView
+        getListView = (ListView)findViewById(R.id.listViewID);
+        //
 
         spinner.setAdapter(adapter);
         spinnerCity.setAdapter(adapterCity);
@@ -177,6 +199,11 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
         startBtn = (Button)contactPopupView.findViewById(R.id.StartBtn);
         endBtn = (Button)contactPopupView.findViewById(R.id.EndBtn);
         datebtn = (Button)contactPopupView.findViewById(R.id.Datebtn);
+        etAddress = (EditText)contactPopupView.findViewById(R.id.etAddress);
+        etParticipants = (EditText)contactPopupView.findViewById(R.id.etParticipants);
+        createbtn = (Button)contactPopupView.findViewById(R.id.Createbtn);
+
+
         final int minute = calender.get(Calendar.MINUTE);
         final int hour = calender.get(Calendar.HOUR_OF_DAY);
         //
@@ -198,6 +225,8 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
 
             }
         });
+
+
 
         endBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -246,6 +275,40 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
         dialogBuilder.setView(contactPopupView);
         dialog = dialogBuilder.create();
         dialog.show();
+
+        createbtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                pickimageadd = pickimage.toString();
+                makeActivity = new ActivitysOfUser(selectedSportAdd,selectedCityAdd,startTime,endTime,pickimageadd,getDate);
+                //Send info to data Base
+
+
+                mDatabase.child("Activitys").child(user.getUid())
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                // get total available quest
+                                if(dataSnapshot.exists())
+                                {
+                                    countOfchild = (int) dataSnapshot.getChildrenCount();
+                                    mDatabase.child("Activitys").child(user.getUid()).child(Integer.toString(countOfchild+1)).setValue(makeActivity);
+                                }
+
+                            }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError)
+                            {
+
+                            }
+                        });
+
+                dialog.dismiss();
+            }
+        });
+
+
     }
 
     @Override
@@ -289,5 +352,16 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
             //get the date here!!
+            getDate = dayOfMonth + "." + month + "." + year;
     }
+
+//    private void ListViewRefresh()
+//    {
+//        mDatabase.child("Activitys").child(user.getUid())
+//    }
+
+
+
+
+
 }
