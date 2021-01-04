@@ -324,13 +324,14 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         ImageView pro_img;
+
          if (requestCode == 1)
          {
             try {
 
-                if (resultCode == RESULT_OK && pickimage != null) {
-                    pickimage = data.getData();
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+                if (resultCode == RESULT_OK && data.getData() != null) {
+                            pickimage = data.getData();
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
 
                 }
             } catch (IOException e) {
