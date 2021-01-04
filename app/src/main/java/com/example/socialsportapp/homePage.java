@@ -12,9 +12,11 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -22,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
@@ -37,6 +40,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.util.Calendar;
 
 public class homePage extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
@@ -280,7 +284,10 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
         {
             @Override
             public void onClick(View v) {
-                pickimageadd = pickimage.toString();
+                if(pickimage != null) {
+                    pickimageadd = pickimage.toString();
+                }
+
                 makeActivity = new ActivitysOfUser(selectedSportAdd,selectedCityAdd,startTime,endTime,pickimageadd,getDate);
                 //Send info to data Base
 
@@ -293,15 +300,13 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
                                 if(dataSnapshot.exists())
                                 {
                                     countOfchild = (int) dataSnapshot.getChildrenCount();
-                                    mDatabase.child("Activitys").child(user.getUid()).child(Integer.toString(countOfchild+1)).setValue(makeActivity);
                                 }
+                                mDatabase.child("Activitys").child(user.getUid()).child(Integer.toString(countOfchild+1)).setValue(makeActivity);
 
                             }
                             @Override
                             public void onCancelled(DatabaseError databaseError)
-                            {
-
-                            }
+                            {}
                         });
 
                 dialog.dismiss();
@@ -311,15 +316,26 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
 
     }
 
+
+
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            pickimage = data.getData();
+        ImageView pro_img;
+         if (requestCode == 1) {
+            try {
+                pickimage = data.getData();
+                if (pickimage != null) {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
-
-
 
 
     private void openGallery()
@@ -359,9 +375,6 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
 //    {
 //        mDatabase.child("Activitys").child(user.getUid())
 //    }
-
-
-
 
 
 }
