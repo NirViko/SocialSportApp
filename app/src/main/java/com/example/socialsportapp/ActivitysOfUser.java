@@ -5,10 +5,11 @@ import java.util.ArrayList;
 
 public class ActivitysOfUser {
 
-    private String selectedSportAdd ,selectedCityAdd ,startTime ,endTime ,getDate;
-    private ArrayList <String> userInThisActiv;
+    private String selectedSportAdd ,selectedCityAdd ,startTime ,endTime ,getDate,address;
+    //private ArrayList <String> userInThisActiv;
     private int maxOfUsers , numberOfusers;
     String pickimage ;
+
 
 
 
@@ -16,88 +17,84 @@ public class ActivitysOfUser {
     {
         // Default
     }
-    public ActivitysOfUser(String selectedSportAdd , String  selectedCityAdd , String  startTime , String endTime , String pickimage , String getDate)
+    public ActivitysOfUser(String selectedSportAdd , String  selectedCityAdd , String  startTime , String endTime , String pickimage , String getDate,int maxOfUsers,String address)
     {
-        userInThisActiv = new ArrayList<String>();
+
         this.selectedSportAdd = selectedSportAdd;
         this.selectedCityAdd = selectedCityAdd;
         this.startTime = startTime;
         this.endTime = endTime;
         this.pickimage = pickimage;
         this.getDate = getDate;
+        this.maxOfUsers = maxOfUsers;
+        this.address = address;
     }
 
-    public String getSelectedCity() {
-        return selectedSportAdd;
-    }
+    //GET
 
-    public void setSelectedCity(String selectedCity) {
-        this.selectedSportAdd = selectedCity;
-    }
+    public String getAddress() { return address; }
 
-    public String getSelectedCityAdd() {
-        return selectedCityAdd;
-    }
+    public String getSelectedCityAdd() { return selectedCityAdd; }
 
-    public void setSelectedCityAdd(String selectedCityAdd) {
-        this.selectedCityAdd = selectedCityAdd;
-    }
-
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
+    public String getStartTime() { return startTime; }
 
     public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
-
-    public String getGetDate() {
-        return getDate;
-    }
-
-    public void setGetDate(String getDate) {
-        this.getDate = getDate;
-    }
+    public String getGetDate() { return getDate; }
 
     public String getPickimage() {
         return pickimage;
     }
 
-    public void setPickimage(String pickimage) {
-        this.pickimage = pickimage;
-    }
-
-
-    public ArrayList<String> getUserInThisActiv() {
-        return userInThisActiv;
-    }
-
-    public void setUserInThisActiv(ArrayList<String> userInThisActiv) {
-        this.userInThisActiv = userInThisActiv;
-    }
-
-    public int getMaxOfUsers() {
-        return maxOfUsers;
-    }
-
-    public void setMaxOfUsers(int maxOfUsers) {
-        this.maxOfUsers = maxOfUsers;
+    public String getUserInThisActiv() {
+        return selectedSportAdd;
     }
 
     public int getNumberOfusers() {
         return numberOfusers;
     }
 
+    public int getMaxOfUsers() {
+        return maxOfUsers;
+    }
+
+    //SET!
+
+
+    public void setAddress(String address) { this.address = address; }
+
+    public void setSelectedCityAdd(String selectedCityAdd) { this.selectedCityAdd = selectedCityAdd; }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setGetDate(String getDate) {
+        this.getDate = getDate;
+    }
+
+    public void setPickimage(String pickimage) {
+        this.pickimage = pickimage;
+    }
+
+    public void setUserInThisActiv(String selectedSportAdd) { this.selectedSportAdd = selectedSportAdd; }
+
+    public void setMaxOfUsers(int maxOfUsers) {
+        this.maxOfUsers = maxOfUsers;
+    }
+
     public void setNumberOfusers(int numberOfusers) {
         this.numberOfusers = numberOfusers;
+    }
+
+    public void setSelectedCity(String selectedCity) {
+        this.selectedSportAdd = selectedCity;
     }
 
 }

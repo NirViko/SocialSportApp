@@ -1,10 +1,12 @@
 package com.example.socialsportapp;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
@@ -41,15 +43,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class homePage extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
+
 
 
     private Button addBtn;
     private Button endBtn;
     private Uri pickimage;
     private String getDate;
+    private Button joinbtn;
     private Spinner spinner;
     private Button startBtn;
     private Button Imagebtn;
@@ -67,14 +73,16 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
     private Context mContext = this;
     private Spinner TypeOfActivityAdd;
     private FirebaseAuth mFireBaseAuth;
-    private DatabaseReference mDatabase;
+    private RecyclerView mRecyclerView;
     private ActivitysOfUser makeActivity;
     private AlertDialog.Builder dialogBuilder;
     private ArrayAdapter<CharSequence> adapter;
     private EditText etAddress ,etParticipants;
     private ArrayAdapter<CharSequence> adapterCity;
     private ArrayAdapter<CharSequence> adaptersportiv;
+    private DatabaseReference mDatabase,mReadDatabase;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private List <ActivitysOfUser> listOfActivity = new ArrayList<>();
     private String  fullName , phoneNum , startTime , endTime, pickimageadd ;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private String selected , selectedSport , selectedCity,selectedCityAdd, selectedSportAdd;
@@ -94,8 +102,13 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
 
         //Connect to data base
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
         //
 
+
+        //setView of list
+        LoadedAllData();
+        //
 
         //btn Of this Activity
         addBtn = (Button)findViewById(R.id.Add);
@@ -121,7 +134,7 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
 
 
         //ListView
-        getListView = (ListView)findViewById(R.id.listViewID);
+        //getListView = (ListView)findViewById(R.id.listViewID);
         //
 
         spinner.setAdapter(adapter);
@@ -149,10 +162,20 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
         });
 
 
+
+        joinbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
     }
 
-
-    public void EventHandler() {
+    //All Spinners//
+    public void EventHandler()
+    {
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -164,7 +187,8 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        spinnerSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
          @Override
          public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
              selectedSport = parent.getItemAtPosition(position).toString();
@@ -185,11 +209,15 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
      });
 
     }
+    //End of fun//
 
+
+
+
+
+    //Popup Window//
     public void createNewContentDialog()
     {
-
-
 
         dialogBuilder = new AlertDialog.Builder(this);
         final View contactPopupView = getLayoutInflater().inflate(R.layout.activity_add,null);
@@ -197,8 +225,10 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
         //Add Activity//
 
         Calendar calender = Calendar.getInstance();
-        spinnerCityAdd = (Spinner) contactPopupView.findViewById(R.id.spinnerCity);
+        //Popup Spinner
+        spinnerCityAdd = (Spinner) contactPopupView.findViewById(R.id.spinnerCityMake);
         TypeOfActivityAdd = (Spinner) contactPopupView.findViewById(R.id.TypeOfActivityAdd);
+        //End
         Imagebtn = (Button)contactPopupView.findViewById(R.id.Imagebtn);
         startBtn = (Button)contactPopupView.findViewById(R.id.StartBtn);
         endBtn = (Button)contactPopupView.findViewById(R.id.EndBtn);
@@ -211,6 +241,8 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
         final int minute = calender.get(Calendar.MINUTE);
         final int hour = calender.get(Calendar.HOUR_OF_DAY);
         //
+
+
 
 
         startBtn.setOnClickListener(new View.OnClickListener() {
@@ -271,14 +303,31 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
         });
 
 
-        spinnerCityAdd.setAdapter(adapterCity);
-        TypeOfActivityAdd.setAdapter(adaptersportiv);
-        selectedCityAdd = selectedCity;
-        selectedSportAdd = selectedSport;
 
-        dialogBuilder.setView(contactPopupView);
-        dialog = dialogBuilder.create();
-        dialog.show();
+        //Add Spinner
+        spinnerCityAdd.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedCityAdd = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        TypeOfActivityAdd.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedSportAdd = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        //
+
+
 
         createbtn.setOnClickListener(new View.OnClickListener()
         {
@@ -288,7 +337,9 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
                     pickimageadd = pickimage.toString();
                 }
 
-                makeActivity = new ActivitysOfUser(selectedSportAdd,selectedCityAdd,startTime,endTime,pickimageadd,getDate);
+                int size = Integer.parseInt(etParticipants.getText().toString());
+
+                makeActivity = new ActivitysOfUser(selectedSportAdd,selectedCityAdd,startTime,endTime,pickimageadd,getDate,size,etAddress.getText().toString());
                 //Send info to data Base
 
 
@@ -314,7 +365,15 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
         });
 
 
+        spinnerCityAdd.setAdapter(adapterCity);
+        TypeOfActivityAdd.setAdapter(adaptersportiv);
+        dialogBuilder.setView(contactPopupView);
+        dialog = dialogBuilder.create();
+        dialog.show();
+
     }
+
+    //End of popup Window
 
 
 
@@ -374,10 +433,92 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
             getDate = dayOfMonth + "." + month + "." + year;
     }
 
-//    private void ListViewRefresh()
-//    {
-//        mDatabase.child("Activitys").child(user.getUid())
-//    }
 
+
+
+    // Read from data-base;
+   private void ListViewRefresh(final DataStatus dataStatus)
+    {
+        mReadDatabase = FirebaseDatabase.getInstance().getReference("Activitys");
+
+        mReadDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listOfActivity.clear();
+                List <String> keys =  new ArrayList<>();
+                for(DataSnapshot keyNode: snapshot.getChildren())
+                {
+                    for(DataSnapshot keyOfVal:keyNode.getChildren())
+                    {
+                        keys.add(keyOfVal.getKey());
+                        ActivitysOfUser Activity = keyOfVal.getValue(ActivitysOfUser.class);
+                        listOfActivity.add(Activity);
+                    }
+                }
+                dataStatus.DataIsLoaded(listOfActivity,keys);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+    }
+
+    //
+
+    public interface DataStatus
+    {
+        void DataIsLoaded(List<ActivitysOfUser> Activity,List<String> keys);
+        void DataIsInserted();
+        void DataIsUpdate();
+        void DataIsDeleted();
+    }
+
+    public void LoadedAllData()
+    {
+        mRecyclerView = (RecyclerView) findViewById(R.id.ListView);
+        new homePage().ListViewRefresh(new DataStatus() {
+            @Override
+            public void DataIsLoaded(List<ActivitysOfUser> Activity, List<String> keys) {
+                new RecyclerView_Config().setConfing(mRecyclerView,homePage.this, Activity,keys);
+            }
+
+            @Override
+            public void DataIsInserted() {
+
+            }
+
+            @Override
+            public void DataIsUpdate() {
+
+            }
+
+            @Override
+            public void DataIsDeleted() {
+
+            }
+        });
+    }
+
+
+    private void AllDataOfFile()
+    {
+        joinbtn = (Button)findViewById(R.id.clickbtnf);
+        dialogBuilder = new AlertDialog.Builder(this);
+        final View contactPopupView = getLayoutInflater().inflate(R.layout.popup_join,null);
+
+
+        joinbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+
+
+            }
+        });
+    }
 
 }
