@@ -55,7 +55,7 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
     private Button endBtn;
     private Uri pickimage;
     private String getDate;
-    private Button joinbtn;
+
     private Spinner spinner;
     private Button startBtn;
     private Button Imagebtn;
@@ -163,12 +163,8 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
 
 
 
-        joinbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
+
 
 
     }
@@ -504,21 +500,6 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
     }
 
 
-    private void AllDataOfFile()
-    {
-        joinbtn = (Button)findViewById(R.id.clickbtnf);
-        dialogBuilder = new AlertDialog.Builder(this);
-        final View contactPopupView = getLayoutInflater().inflate(R.layout.popup_join,null);
 
-
-        joinbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-
-
-            }
-        });
-    }
 
 }
