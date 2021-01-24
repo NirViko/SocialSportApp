@@ -1,49 +1,97 @@
 package com.example.socialsportapp;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.internal.RecaptchaActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
-public class homePage extends AppCompatActivity {
+public class homePage extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
+
 
 
     private Button addBtn;
     private Button endBtn;
+    private Uri pickimage;
+    private String getDate;
+
     private Spinner spinner;
     private Button startBtn;
+    private Button Imagebtn;
+    private int countOfchild;
     private Button logOutbtn;
+    private Button createbtn;
     private AlertDialog dialog;
     private Spinner spinnerCity;
     private int minStart,minEnd;
     private Spinner spinnerSport;
+    private ListView getListView;
     private int hourStart,hourEnd;
     private Button datebtn,listBtn;
+    private Spinner spinnerCityAdd;
     private Context mContext = this;
+    private Spinner TypeOfActivityAdd;
     private FirebaseAuth mFireBaseAuth;
+    private RecyclerView mRecyclerView;
+    private ActivitysOfUser makeActivity;
     private AlertDialog.Builder dialogBuilder;
     private ArrayAdapter<CharSequence> adapter;
+    private EditText etAddress ,etParticipants;
     private ArrayAdapter<CharSequence> adapterCity;
     private ArrayAdapter<CharSequence> adaptersportiv;
-    private String selected , selectedSport , selectedCity;
+    private DatabaseReference mDatabase,mReadDatabase;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
-    private String  fullName , phoneNum , startTime , endTime ;
+    private List <ActivitysOfUser> listOfActivity = new ArrayList<>();
+    private String  fullName , phoneNum , startTime , endTime, pickimageadd ;
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private String selected , selectedSport , selectedCity,selectedCityAdd, selectedSportAdd;
 
+// ...
 
+//Static
+    static int PReqCode = 1;
+    static int REQUESCODE = 1;
 
 
     @Override
@@ -52,6 +100,15 @@ public class homePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
+        //Connect to data base
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        //
+
+
+        //setView of list
+        LoadedAllData();
+        //
 
         //btn Of this Activity
         addBtn = (Button)findViewById(R.id.Add);
@@ -76,9 +133,14 @@ public class homePage extends AppCompatActivity {
         //
 
 
+        //ListView
+        //getListView = (ListView)findViewById(R.id.listViewID);
+        //
+
         spinner.setAdapter(adapter);
         spinnerCity.setAdapter(adapterCity);
         spinnerSport.setAdapter(adaptersportiv);
+
 
 
         EventHandler();
@@ -95,14 +157,21 @@ public class homePage extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                createNewContentDiaglog();
+                createNewContentDialog();
             }
         });
 
+
+
+
+
+
+
     }
 
-
-    public void EventHandler() {
+    //All Spinners//
+    public void EventHandler()
+    {
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -114,7 +183,8 @@ public class homePage extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-     spinnerSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
          @Override
          public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
              selectedSport = parent.getItemAtPosition(position).toString();
@@ -135,11 +205,15 @@ public class homePage extends AppCompatActivity {
      });
 
     }
+    //End of fun//
 
-    public void createNewContentDiaglog()
+
+
+
+
+    //Popup Window//
+    public void createNewContentDialog()
     {
-
-
 
         dialogBuilder = new AlertDialog.Builder(this);
         final View contactPopupView = getLayoutInflater().inflate(R.layout.activity_add,null);
@@ -147,11 +221,24 @@ public class homePage extends AppCompatActivity {
         //Add Activity//
 
         Calendar calender = Calendar.getInstance();
+        //Popup Spinner
+        spinnerCityAdd = (Spinner) contactPopupView.findViewById(R.id.spinnerCityMake);
+        TypeOfActivityAdd = (Spinner) contactPopupView.findViewById(R.id.TypeOfActivityAdd);
+        //End
+        Imagebtn = (Button)contactPopupView.findViewById(R.id.Imagebtn);
         startBtn = (Button)contactPopupView.findViewById(R.id.StartBtn);
         endBtn = (Button)contactPopupView.findViewById(R.id.EndBtn);
+        datebtn = (Button)contactPopupView.findViewById(R.id.Datebtn);
+        etAddress = (EditText)contactPopupView.findViewById(R.id.etAddress);
+        etParticipants = (EditText)contactPopupView.findViewById(R.id.etParticipants);
+        createbtn = (Button)contactPopupView.findViewById(R.id.Createbtn);
+
+
         final int minute = calender.get(Calendar.MINUTE);
         final int hour = calender.get(Calendar.HOUR_OF_DAY);
         //
+
+
 
 
         startBtn.setOnClickListener(new View.OnClickListener() {
@@ -170,6 +257,8 @@ public class homePage extends AppCompatActivity {
 
             }
         });
+
+
 
         endBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,9 +281,225 @@ public class homePage extends AppCompatActivity {
             }
         });
 
+        Imagebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+            }
+        });
 
+        datebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDailog();
+            }
+        });
+
+
+
+        //Add Spinner
+        spinnerCityAdd.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedCityAdd = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        TypeOfActivityAdd.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedSportAdd = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        //
+
+
+
+        createbtn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                if(pickimage != null) {
+                    pickimageadd = pickimage.toString();
+                }
+
+                int size = Integer.parseInt(etParticipants.getText().toString());
+
+                makeActivity = new ActivitysOfUser(selectedSportAdd,selectedCityAdd,startTime,endTime,pickimageadd,getDate,size,etAddress.getText().toString());
+                //Send info to data Base
+
+
+                mDatabase.child("Activitys").child(user.getUid())
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                // get total available quest
+                                if(dataSnapshot.exists())
+                                {
+                                    countOfchild = (int) dataSnapshot.getChildrenCount();
+                                }
+                                mDatabase.child("Activitys").child(user.getUid()).child(Integer.toString(countOfchild+1)).setValue(makeActivity);
+
+                            }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError)
+                            {}
+                        });
+
+                dialog.dismiss();
+            }
+        });
+
+
+        spinnerCityAdd.setAdapter(adapterCity);
+        TypeOfActivityAdd.setAdapter(adaptersportiv);
         dialogBuilder.setView(contactPopupView);
         dialog = dialogBuilder.create();
         dialog.show();
+
     }
+
+    //End of popup Window
+
+
+
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ImageView pro_img;
+
+         if (requestCode == 1)
+         {
+            try {
+
+                if (resultCode == RESULT_OK && data.getData() != null) {
+                            pickimage = data.getData();
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    private void openGallery()
+    {
+        //Open gallery intent and wait for user to pick an image
+        Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        galleryIntent.setType("image/*");
+        startActivityForResult(galleryIntent,PReqCode);
+    }
+
+
+
+
+
+
+    private void showDatePickerDailog()
+    {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                this,
+                Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.MONTH),
+                Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+
+                );
+        datePickerDialog.show();
+
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            //get the date here!!
+            getDate = dayOfMonth + "." + month + "." + year;
+    }
+
+
+
+
+    // Read from data-base;
+   private void ListViewRefresh(final DataStatus dataStatus)
+    {
+        mReadDatabase = FirebaseDatabase.getInstance().getReference("Activitys");
+
+        mReadDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listOfActivity.clear();
+                List <String> keys =  new ArrayList<>();
+                for(DataSnapshot keyNode: snapshot.getChildren())
+                {
+                    for(DataSnapshot keyOfVal:keyNode.getChildren())
+                    {
+                        keys.add(keyOfVal.getKey());
+                        ActivitysOfUser Activity = keyOfVal.getValue(ActivitysOfUser.class);
+                        listOfActivity.add(Activity);
+                    }
+                }
+                dataStatus.DataIsLoaded(listOfActivity,keys);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+    }
+
+    //
+
+    public interface DataStatus
+    {
+        void DataIsLoaded(List<ActivitysOfUser> Activity,List<String> keys);
+        void DataIsInserted();
+        void DataIsUpdate();
+        void DataIsDeleted();
+    }
+
+    public void LoadedAllData()
+    {
+        mRecyclerView = (RecyclerView) findViewById(R.id.ListView);
+        new homePage().ListViewRefresh(new DataStatus() {
+            @Override
+            public void DataIsLoaded(List<ActivitysOfUser> Activity, List<String> keys) {
+                new RecyclerView_Config().setConfing(mRecyclerView,homePage.this, Activity,keys);
+            }
+
+            @Override
+            public void DataIsInserted() {
+
+            }
+
+            @Override
+            public void DataIsUpdate() {
+
+            }
+
+            @Override
+            public void DataIsDeleted() {
+
+            }
+        });
+    }
+
+
+
+
 }

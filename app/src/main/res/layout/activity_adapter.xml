@@ -2,15 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     tools:context=".Adapter">
     <TextView
         android:id="@+id/start2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
         android:text="Start"
         android:textColor="#26FF00"
@@ -22,8 +22,8 @@
         android:id="@+id/end2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginLeft="100dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="80dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="0dp"
         android:layout_marginRight="0dp"
@@ -36,8 +36,8 @@
         android:id="@+id/starttime2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="37dp"
-        android:layout_marginLeft="37dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginLeft="17dp"
         android:layout_marginTop="25dp"
         android:text="00:00"
         android:textColor="#0C0C0C"
@@ -47,8 +47,8 @@
         android:id="@+id/endtime2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="97dp"
-        android:layout_marginLeft="97dp"
+        android:layout_marginStart="47dp"
+        android:layout_marginLeft="77dp"
         android:layout_marginTop="25dp"
         android:text="00:00"
         android:textColor="#070707"
@@ -57,46 +57,70 @@
 
 
     <TextView
-        android:id="@+id/fullname2"
+        android:id="@+id/dateTosee"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="150dp"
+        android:layout_marginStart="120dp"
         android:layout_marginLeft="150dp"
         android:layout_marginTop="10dp"
-        android:text="Full-Name"
+        android:text="Date"
         android:textColor="#0B0A0A"
         android:textSize="10sp" />
 
     <TextView
-        android:id="@+id/fullnameprint2"
+        android:id="@+id/dataForshow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="150dp"
+        android:layout_marginStart="105dp"
         android:layout_marginLeft="150dp"
         android:layout_marginTop="25dp"
-        android:text="Nir Vaknin"
+        android:text="30/4/2021"
         android:textColor="#121111"
         android:textSize="10sp" />
 
     <TextView
-        android:id="@+id/phone2"
+        android:id="@+id/CitytoSee"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="230dp"
+        android:layout_marginStart="170dp"
         android:layout_marginLeft="230dp"
         android:layout_marginTop="10dp"
-        android:text="Phone"
+        android:text="City"
         android:textColor="#070707"
         android:textSize="10dp" />
 
     <TextView
-        android:id="@+id/phoneprint2"
+        android:id="@+id/CityOfActivity1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="215dp"
+        android:layout_marginStart="165dp"
         android:layout_marginLeft="215dp"
         android:layout_marginTop="25dp"
-        android:text="052-6485798"
+        android:text="Tel-Aviv"
+        android:textColor="#101010"
+        android:textSize="10sp" />
+
+
+
+    <TextView
+        android:id="@+id/TypeOfActivityToSee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="220dp"
+        android:layout_marginLeft="230dp"
+        android:layout_marginTop="10dp"
+        android:text="Activity"
+        android:textColor="#070707"
+        android:textSize="10dp" />
+
+    <TextView
+        android:id="@+id/TypeOfActivityToSee2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="220dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="25dp"
+        android:text="Foot-Ball"
         android:textColor="#101010"
         android:textSize="10sp" />
 
@@ -108,7 +132,7 @@
         android:layout_marginStart="300dp"
         android:layout_marginLeft="300dp"
         android:layout_marginTop="5dp"
-        android:text="TIME"
+        android:text="JOIN"
         app:backgroundTint="#200808" />
 
 </RelativeLayout>
