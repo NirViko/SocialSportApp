@@ -74,7 +74,7 @@
         android:layout_marginStart="105dp"
         android:layout_marginLeft="150dp"
         android:layout_marginTop="25dp"
-        android:text="30/4/2021"
+        android:text="30/04/2021"
         android:textColor="#121111"
         android:textSize="10sp" />
 
@@ -89,6 +89,7 @@
         android:textColor="#070707"
         android:textSize="10dp" />
 
+
     <TextView
         android:id="@+id/CityOfActivity1"
         android:layout_width="wrap_content"
@@ -99,8 +100,6 @@
         android:text="Tel-Aviv"
         android:textColor="#101010"
         android:textSize="10sp" />
-
-
 
     <TextView
         android:id="@+id/TypeOfActivityToSee"
@@ -127,7 +126,7 @@
     <Button
         android:id="@+id/clickbtnf"
 
-        android:layout_width="71dp"
+        android:layout_width="90dp"
         android:layout_height="40dp"
         android:layout_marginStart="300dp"
         android:layout_marginLeft="300dp"

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -10,161 +11,178 @@
         android:id="@+id/infoView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="160dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
         android:background="#23673AB7"
         android:text="Information of the activity"
         android:textColor="#673AB7"
         android:textColorHighlight="#9C27B0"
         android:textSize="30sp"
-        android:textStyle="bold|italic" />
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/infotypeofactivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginLeft="160dp"
-        android:layout_marginTop="90dp"
+
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
         android:text="Type of Activity"
-
-        />
-
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/infoView" />
 
     <TextView
         android:id="@+id/infoOfDate"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginLeft="160dp"
-        android:layout_marginTop="150dp"
-        android:text="Date"
 
-        />
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="35dp"
+        android:text="Date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/infotypeofactivity" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginLeft="160dp"
-        android:layout_marginTop="210dp"
-        android:text="Time"
 
-        />
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="35dp"
+        android:text="Time"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/infoOfDate" />
 
     <TextView
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="160dp"
-        android:layout_marginTop="290dp"
-        android:text="City"
+        android:layout_marginTop="90dp"
 
-        />
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:text="City"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/infoTextViewDate" />
 
     <TextView
         android:id="@+id/infoOfcity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="195dp"
-        android:layout_marginLeft="195dp"
-        android:layout_marginTop="280dp"
+        android:layout_marginStart="20dp"
+
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="35dp"
         android:text="City"
-
-        />
-
-
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginLeft="160dp"
-        android:layout_marginTop="350dp"
-        android:text="Address"
 
-        />
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="35dp"
+        android:text="Address"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/infoOfcity" />
+
 
     <TextView
         android:id="@+id/infoOfStreet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="120dp"
-        android:layout_marginLeft="300dp"
-        android:layout_marginTop="335dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
         android:text="info of street"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginLeft="160dp"
-        android:layout_marginTop="430dp"
-        android:text="Number of participants:"
 
-        />
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="35dp"
+        android:text="Left:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
 
     <TextView
         android:id="@+id/etParticipants"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="200dp"
-        android:layout_marginLeft="160dp"
-        android:layout_marginTop="430dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
         android:text="numer"
-        />
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/infoOfStreet" />
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="160dp"
-        android:layout_marginTop="490dp"
+
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:alpha="0"
         android:text="Image"
-
-        />
-
+        app:layout_constraintBottom_toTopOf="@+id/infoJoin"
+        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        tools:layout_editor_absoluteX="41dp" />
 
     <TextView
         android:id="@+id/infoTypeOfActivity"
-        android:layout_width="146dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="185dp"
-        android:layout_marginLeft="185dp"
-        android:layout_marginTop="80dp"
-        android:text="typeOfActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
 
-        />
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:text="typeOfActivity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/infoView" />
 
     <TextView
         android:id="@+id/infoStartTime"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="120dp"
-        android:layout_marginLeft="170dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
         android:text="@string/start"
-        app:backgroundTint="#CD673AB7" />
+        app:backgroundTint="#CD673AB7"
+        app:layout_constraintEnd_toStartOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/infoOfDate" />
 
     <TextView
         android:id="@+id/infoEndTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="240dp"
-        android:layout_marginLeft="270dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
         android:text="end"
-        app:backgroundTint="#CD673AB7" />
+        app:backgroundTint="#CD673AB7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/infoOfDate" />
 
     <Button
         android:id="@+id/infoJoin"
@@ -172,31 +190,47 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="525dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
         android:text="Join"
-        app:backgroundTint="#959C27B0" />
+        app:backgroundTint="#959C27B0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/infoImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="210dp"
-        android:layout_marginLeft="300dp"
-        android:layout_marginTop="475dp"
+        android:alpha="0"
         android:text="@string/add_image"
-        app:backgroundTint="#CD673AB7" />
-
+        app:backgroundTint="#CD673AB7"
+        tools:layout_editor_absoluteX="132dp"
+        tools:layout_editor_absoluteY="606dp" />
 
     <TextView
         android:id="@+id/infoTextViewDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="220dp"
-        android:layout_marginLeft="300dp"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
         android:text="Date"
-        app:backgroundTint="#CD673AB7" />
+        app:backgroundTint="#CD673AB7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/infoTypeOfActivity" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:text=" - "
+        app:layout_constraintEnd_toStartOf="@+id/infoEndTime"
+        app:layout_constraintTop_toBottomOf="@+id/infoOfDate" />
 
 
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

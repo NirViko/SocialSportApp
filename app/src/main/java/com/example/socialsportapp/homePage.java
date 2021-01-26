@@ -41,6 +41,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.core.utilities.Utilities;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -65,6 +66,7 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
     private AlertDialog dialog;
     private Spinner spinnerCity;
     private int minStart,minEnd;
+    private Button searchButton;
     private Spinner spinnerSport;
     private ListView getListView;
     private int hourStart,hourEnd;
@@ -89,7 +91,7 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
 
 // ...
 
-//Static
+    //Static
     static int PReqCode = 1;
     static int REQUESCODE = 1;
 
@@ -109,6 +111,31 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
         //setView of list
         LoadedAllData();
         //
+
+        searchButton = findViewById(R.id.button4);
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                if(!spinnerCity.getSelectedItem().toString().equals("City")) {
+                    com.example.socialsportapp.Utilities.currentCityRefine = spinnerCity.getSelectedItem().toString();
+                    LoadedAllData();
+                }else {
+                    com.example.socialsportapp.Utilities.currentCityRefine = null;
+                    LoadedAllData();
+                }
+
+                if(!spinnerSport.getSelectedItem().toString().equals("Type of activity")) {
+                    com.example.socialsportapp.Utilities.currentTypeRefine = spinnerSport.getSelectedItem().toString();
+                    LoadedAllData();
+                }else {
+                    com.example.socialsportapp.Utilities.currentTypeRefine = null;
+                    LoadedAllData();
+                }
+            }
+        });
 
         //btn Of this Activity
         addBtn = (Button)findViewById(R.id.Add);
@@ -144,7 +171,7 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
 
 
         EventHandler();
-        logOutbtn.setOnClickListener(new View.OnClickListener() { 
+        logOutbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
@@ -185,30 +212,27 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
 
         spinnerSport.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
-         @Override
-         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-             selectedSport = parent.getItemAtPosition(position).toString();
-         }
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedSport = parent.getItemAtPosition(position).toString();
+            }
 
-         @Override
-         public void onNothingSelected(AdapterView<?> parent) {}
-     });
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
 
-     spinnerCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-         @Override
-         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-             selectedCity = parent.getItemAtPosition(position).toString();
-         }
+        spinnerCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedCity = parent.getItemAtPosition(position).toString();
+            }
 
-         @Override
-         public void onNothingSelected(AdapterView<?> parent) {}
-     });
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
 
     }
     //End of fun//
-
-
-
 
 
     //Popup Window//
@@ -329,15 +353,52 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
         {
             @Override
             public void onClick(View v) {
+                System.out.println("Start time: " + startTime);
+                System.out.println("end time: " + endTime);
                 if(pickimage != null) {
                     pickimageadd = pickimage.toString();
                 }
+                if(getDate == null || getDate == "") {
+                    Toast.makeText((getApplicationContext()), "Please select date",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(startTime == null || startTime == "") {
+                    Toast.makeText((getApplicationContext()), "Please select start time",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(endTime == null || endTime == "") {
+                    Toast.makeText((getApplicationContext()), "Please select end time",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(Integer.parseInt(endTime.split(":")[0]) < Integer.parseInt(startTime.split(":")[0])) {
+                    Toast.makeText((getApplicationContext()), "Your end time should be later than your start time.",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(Integer.parseInt(endTime.split(":")[0]) == Integer.parseInt(startTime.split(":")[0]) &&
+                        Integer.parseInt(endTime.split(":")[1]) < Integer.parseInt(startTime.split(":")[1])) {
+                    Toast.makeText((getApplicationContext()), "Your end time should be later than your start time.",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(etAddress.getText().toString().length() < 3) {
+                    Toast.makeText((getApplicationContext()), "Please enter address.",Toast.LENGTH_SHORT).show();
+                    etAddress.setError("Address Error");
+                    etAddress.requestFocus();
+                    return;
+                }
+                if(etParticipants.getText().toString() == "") {
+                    Toast.makeText((getApplicationContext()), "Please enter participants numbers.",Toast.LENGTH_SHORT).show();
+                    etParticipants.setError("Enter number");
+                    etParticipants.requestFocus();
+                    return;
+                }
+
+
 
                 int size = Integer.parseInt(etParticipants.getText().toString());
-
-                makeActivity = new ActivitysOfUser(selectedSportAdd,selectedCityAdd,startTime,endTime,pickimageadd,getDate,size,etAddress.getText().toString());
+                ArrayList<String> users = new ArrayList<String>();
+                users.add(FirebaseAuth.getInstance().getUid());
+                makeActivity = new ActivitysOfUser(selectedSportAdd,selectedCityAdd,startTime,endTime,pickimageadd,getDate,size,etAddress.getText().toString(),user.getUid(), users);
                 //Send info to data Base
-
 
                 mDatabase.child("Activitys").child(user.getUid())
                         .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -348,6 +409,8 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
                                 {
                                     countOfchild = (int) dataSnapshot.getChildrenCount();
                                 }
+                                makeActivity.setActivityNumber(Integer.toString(countOfchild+1));
+                                makeActivity.setNumberOfusers(1);
                                 mDatabase.child("Activitys").child(user.getUid()).child(Integer.toString(countOfchild+1)).setValue(makeActivity);
 
                             }
@@ -363,6 +426,9 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
 
         spinnerCityAdd.setAdapter(adapterCity);
         TypeOfActivityAdd.setAdapter(adaptersportiv);
+        spinnerCityAdd.setSelection(0, false);
+        TypeOfActivityAdd.setSelection(0, false);
+
         dialogBuilder.setView(contactPopupView);
         dialog = dialogBuilder.create();
         dialog.show();
@@ -380,13 +446,13 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
         super.onActivityResult(requestCode, resultCode, data);
         ImageView pro_img;
 
-         if (requestCode == 1)
-         {
+        if (requestCode == 1)
+        {
             try {
 
                 if (resultCode == RESULT_OK && data.getData() != null) {
-                            pickimage = data.getData();
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+                    pickimage = data.getData();
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
 
                 }
             } catch (IOException e) {
@@ -418,23 +484,25 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
 
-                );
+        );
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         datePickerDialog.show();
 
     }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            //get the date here!!
-            getDate = dayOfMonth + "." + month + "." + year;
+        //get the date here!!
+        getDate = dayOfMonth + "." + month + "." + year;
     }
 
 
 
 
     // Read from data-base;
-   private void ListViewRefresh(final DataStatus dataStatus)
+    private void ListViewRefresh(final DataStatus dataStatus)
     {
+
         mReadDatabase = FirebaseDatabase.getInstance().getReference("Activitys");
 
         mReadDatabase.addValueEventListener(new ValueEventListener() {

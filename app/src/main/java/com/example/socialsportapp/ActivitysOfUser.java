@@ -6,9 +6,12 @@ import java.util.ArrayList;
 public class ActivitysOfUser {
 
     private String selectedSportAdd ,selectedCityAdd ,startTime ,endTime ,getDate,address;
+    private String activityID;
+    private String activityNumber;
+    private ArrayList<String> users;
     //private ArrayList <String> userInThisActiv;
     private int maxOfUsers , numberOfusers;
-    String pickimage ;
+    String pickimage;
 
 
 
@@ -17,9 +20,19 @@ public class ActivitysOfUser {
     {
         // Default
     }
-    public ActivitysOfUser(String selectedSportAdd , String  selectedCityAdd , String  startTime , String endTime , String pickimage , String getDate,int maxOfUsers,String address)
+    public ActivitysOfUser(String selectedSportAdd ,
+                           String  selectedCityAdd ,
+                           String  startTime ,
+                           String endTime ,
+                           String pickimage ,
+                           String getDate,
+                           int maxOfUsers,
+                           String address,
+                           String activityID,
+                           ArrayList<String> users)
     {
 
+        this.activityID = activityID;
         this.selectedSportAdd = selectedSportAdd;
         this.selectedCityAdd = selectedCityAdd;
         this.startTime = startTime;
@@ -28,11 +41,14 @@ public class ActivitysOfUser {
         this.getDate = getDate;
         this.maxOfUsers = maxOfUsers;
         this.address = address;
+        this.users = users;
     }
 
     //GET
 
     public String getAddress() { return address; }
+
+    public String getSelectedSportAdd() { return selectedSportAdd; }
 
     public String getSelectedCityAdd() { return selectedCityAdd; }
 
@@ -58,6 +74,18 @@ public class ActivitysOfUser {
 
     public int getMaxOfUsers() {
         return maxOfUsers;
+    }
+
+    public String getActivityID() {
+        return activityID;
+    }
+
+    public String getActivityNumber() {
+        return activityNumber;
+    }
+
+    public ArrayList<String> getUsers() {
+        return users;
     }
 
     //SET!
@@ -95,6 +123,18 @@ public class ActivitysOfUser {
 
     public void setSelectedCity(String selectedCity) {
         this.selectedSportAdd = selectedCity;
+    }
+
+    public void setActivityID(String id) {
+        this.activityID = id;
+    }
+
+    public void setActivityNumber(String number) {
+        this.activityNumber = number;
+    }
+
+    public void setUsers(ArrayList<String> users) {
+        this.users = users;
     }
 
 }
