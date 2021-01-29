@@ -15,7 +15,6 @@ public class ActivitysOfUser {
 
 
 
-
     public ActivitysOfUser()
     {
         // Default
@@ -138,3 +137,5 @@ public class ActivitysOfUser {
     }
 
 }
+
+

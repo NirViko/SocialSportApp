@@ -19,19 +19,22 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.core.utilities.Utilities;
 
 import org.w3c.dom.Text;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class RecyclerView_Config {
     private Context mContext;
     private ActivityAdapter mActivityAdapter;
     private static List<ActivitysOfUser> activity;
-    public void setConfing(RecyclerView recyclerView ,Context context, List<ActivitysOfUser> activity ,List<String> keys)
-    {
+    public void setConfing(RecyclerView recyclerView ,Context context, List<ActivitysOfUser> activity ,List<String> keys) {
         mContext=context;
         this.activity = activity;
         mActivityAdapter = new ActivityAdapter(activity,keys);
@@ -39,11 +42,47 @@ public class RecyclerView_Config {
         recyclerView.setAdapter(mActivityAdapter);
 
         System.out.println("activities: " + activity);
-        if(com.example.socialsportapp.Utilities.currentCityRefine == null || com.example.socialsportapp.Utilities.currentCityRefine == "") {
+
+        Date currentTime = Calendar.getInstance().getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd:MM:yyyy", Locale.getDefault());
+        String currentDateandTime = sdf.format(currentTime);
+        String currentDay = currentDateandTime.split(":")[0];
+        String currentMonth = currentDateandTime.split(":")[1];
+        String currentYear = currentDateandTime.split(":")[2];
+        System.out.println("currentDateandTime: " + currentDateandTime);
+        System.out.println("currentYear: " + currentYear);
+        System.out.println("currentMonth: " + Integer.parseInt(currentMonth));
+        System.out.println("currentDay: " + currentDay);
+
+        List<ActivitysOfUser> currentList = new ArrayList<>();
+        for (ActivitysOfUser activitys : activity) {
+            String date = activitys.getGetDate().toString();
+
+            if (Integer.parseInt(currentMonth) < Integer.parseInt(activitys.getGetDate().split(":")[1])) {
+                currentList.add(activitys);
+            }
+            if (Integer.parseInt(currentYear) < Integer.parseInt(activitys.getGetDate().split(":")[2])) {
+                currentList.add(activitys);
+            }
+            if (Integer.parseInt(currentMonth) == Integer.parseInt(activitys.getGetDate().split(":")[1])
+                    && Integer.parseInt(currentDay) < Integer.parseInt(activitys.getGetDate().split(":")[0])) {
+                currentList.add(activitys);
+            }
+        }
+        for(ActivitysOfUser cur : currentList) {
+            activity.remove(cur);
+            FirebaseDatabase.getInstance().getReference().child("Activitys")
+                    .child(cur.getActivityID())
+                    .child(cur.getActivityNumber()).removeValue();
+        }
+
+
+
+        if(Utilities.currentCityRefine == null || Utilities.currentCityRefine == "") {
         }else {
             List<ActivitysOfUser> current = new ArrayList<>();
             for (ActivitysOfUser activitys : activity) {
-                if (!activitys.getSelectedCityAdd().equals(com.example.socialsportapp.Utilities.currentCityRefine)) {
+                if (!activitys.getSelectedCityAdd().equals(Utilities.currentCityRefine)) {
                     current.add(activitys);
 
                 }
@@ -53,11 +92,11 @@ public class RecyclerView_Config {
             }
         }
 
-        if(com.example.socialsportapp.Utilities.currentTypeRefine == null || com.example.socialsportapp.Utilities.currentTypeRefine == "") {
+        if(Utilities.currentTypeRefine == null || Utilities.currentTypeRefine == "") {
         }else {
             List<ActivitysOfUser> current = new ArrayList<>();
             for (ActivitysOfUser activitys : activity) {
-                if (!activitys.getSelectedSportAdd().equals(com.example.socialsportapp.Utilities.currentTypeRefine)) {
+                if (!activitys.getSelectedSportAdd().equals(Utilities.currentTypeRefine)) {
                     //activity.remove(activitys);
                     current.add(activitys);
                 }
@@ -66,6 +105,38 @@ public class RecyclerView_Config {
                 activity.remove(cur);
             }
         }
+
+
+
+
+
+        if(Utilities.currentDayRefine == null || Utilities.currentDayRefine == "") {
+        }else {
+            List<ActivitysOfUser> current = new ArrayList<>();
+            for (ActivitysOfUser activitys : activity) {
+                SimpleDateFormat inFormat = new SimpleDateFormat("dd.MM.yy");
+                Date date = null;
+                System.out.println("Date: " + activitys.getGetDate());
+                try {
+                    date = inFormat.parse(activitys.getGetDate());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                SimpleDateFormat outFormat = new SimpleDateFormat("EEEE");
+                String goal = outFormat.format(date);
+                System.out.println("goal: " + goal);
+                System.out.println("Utilities.currentDayRefine: " + Utilities.currentDayRefine);
+                if (!goal.equals(Utilities.currentDayRefine)) {
+                    //activity.remove(activitys);
+                    current.add(activitys);
+                }
+            }
+            for(ActivitysOfUser cur : current) {
+                activity.remove(cur);
+            }
+        }
+
+
 
 
 
@@ -136,17 +207,19 @@ public class RecyclerView_Config {
 
 
             if(activitysList.get(position).getMaxOfUsers() == activitysList.get(position).getNumberOfusers()) {
-                joinButton.setText("Full");
+                joinButton.setText("Full.");
                 joinButton.setBackgroundColor(Color.parseColor("#FFFFFF"));
                 joinButton.setTextColor(Color.parseColor("#000000"));
                 joinButton.setEnabled(false);
             }
 
-            if(activitysList.get(position).getUsers().contains(FirebaseAuth.getInstance().getUid())) {
-                joinButton.setText("Joined");
-                joinButton.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                joinButton.setTextColor(Color.parseColor("#000000"));
-                joinButton.setEnabled(false);
+            if(FirebaseAuth.getInstance().getUid() != null && activitysList.get(position).getUsers() != null) {
+                if (activitysList.get(position).getUsers().contains(FirebaseAuth.getInstance().getUid())) {
+                    joinButton.setText("Joined.");
+                    joinButton.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    joinButton.setTextColor(Color.parseColor("#000000"));
+                    joinButton.setEnabled(false);
+                }
             }
 
 
@@ -195,22 +268,23 @@ public class RecyclerView_Config {
                                     Toast.makeText(mContext, "No place left.", Toast.LENGTH_LONG).show();
                                     return;
                                 }
-                                if(activitysList.get(position).getUsers().contains(auth.getUid())) {
 
-                                    Toast.makeText(mContext, "You already in this group.", Toast.LENGTH_LONG).show();
-                                    return;
+                                List<String>users;
+                                if(activitysList.get(position).getUsers() != null) {
+                                    users = activitysList.get(position).getUsers();
+                                }else {
+                                    users = new ArrayList<String>();
                                 }
 
-
-                                activitysList.get(position).getUsers().add(auth.getUid());
+                                users.add(auth.getUid());
                                 FirebaseDatabase.getInstance().getReference().child("Activitys").
                                         child(activitysList.get(position).getActivityID()).
                                         child(activitysList.get(position).getActivityNumber()).child("users").
-                                        setValue(activitysList.get(position).getUsers());
+                                        setValue(users);
                                 FirebaseDatabase.getInstance().getReference().child("Activitys").
                                         child(activitysList.get(position).getActivityID()).
                                         child(activitysList.get(position).getActivityNumber()).child("numberOfusers").
-                                        setValue(activitysList.get(position).getUsers().size());
+                                        setValue(users.size());
 
                                 dialog.dismiss();
 

@@ -41,9 +41,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.core.utilities.Utilities;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -70,7 +70,7 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
     private Spinner spinnerSport;
     private ListView getListView;
     private int hourStart,hourEnd;
-    private Button datebtn,listBtn;
+    private Button datebtn,listBtn, profileBtn;
     private Spinner spinnerCityAdd;
     private Context mContext = this;
     private Spinner TypeOfActivityAdd;
@@ -113,25 +113,42 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
         //
 
         searchButton = findViewById(R.id.button4);
+        profileBtn = (Button) findViewById(R.id.button3);
+        profileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(homePage.this, profile.class);
+                startActivity(intent);
+
+            }
+        });
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                System.out.println("clicked");
 
                 if(!spinnerCity.getSelectedItem().toString().equals("City")) {
-                    com.example.socialsportapp.Utilities.currentCityRefine = spinnerCity.getSelectedItem().toString();
+                    Utilities.currentCityRefine = spinnerCity.getSelectedItem().toString();
                     LoadedAllData();
                 }else {
-                    com.example.socialsportapp.Utilities.currentCityRefine = null;
+                    Utilities.currentCityRefine = null;
                     LoadedAllData();
                 }
 
                 if(!spinnerSport.getSelectedItem().toString().equals("Type of activity")) {
-                    com.example.socialsportapp.Utilities.currentTypeRefine = spinnerSport.getSelectedItem().toString();
+                    Utilities.currentTypeRefine = spinnerSport.getSelectedItem().toString();
                     LoadedAllData();
                 }else {
-                    com.example.socialsportapp.Utilities.currentTypeRefine = null;
+                    Utilities.currentTypeRefine = null;
+                    LoadedAllData();
+                }
+
+                if(!spinner.getSelectedItem().toString().equals("Day")) {
+                    Utilities.currentDayRefine = spinner.getSelectedItem().toString();
+                    LoadedAllData();
+                }else {
+                    Utilities.currentDayRefine = null;
                     LoadedAllData();
                 }
             }
@@ -364,30 +381,38 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
                 }
                 if(startTime == null || startTime == "") {
                     Toast.makeText((getApplicationContext()), "Please select start time",Toast.LENGTH_SHORT).show();
+                    //date.setError("Email already exists");
+                    //email.requestFocus();
                     return;
                 }
                 if(endTime == null || endTime == "") {
                     Toast.makeText((getApplicationContext()), "Please select end time",Toast.LENGTH_SHORT).show();
+                    //date.setError("Email already exists");
+                    //email.requestFocus();
                     return;
                 }
                 if(Integer.parseInt(endTime.split(":")[0]) < Integer.parseInt(startTime.split(":")[0])) {
                     Toast.makeText((getApplicationContext()), "Your end time should be later than your start time.",Toast.LENGTH_SHORT).show();
+                    //date.setError("Email already exists");
+                    //email.requestFocus();
                     return;
                 }
                 if(Integer.parseInt(endTime.split(":")[0]) == Integer.parseInt(startTime.split(":")[0]) &&
                         Integer.parseInt(endTime.split(":")[1]) < Integer.parseInt(startTime.split(":")[1])) {
                     Toast.makeText((getApplicationContext()), "Your end time should be later than your start time.",Toast.LENGTH_SHORT).show();
+                    //date.setError("Email already exists");
+                    //email.requestFocus();
                     return;
                 }
                 if(etAddress.getText().toString().length() < 3) {
                     Toast.makeText((getApplicationContext()), "Please enter address.",Toast.LENGTH_SHORT).show();
-                    etAddress.setError("Address Error");
+                    etAddress.setError("Email already exists");
                     etAddress.requestFocus();
                     return;
                 }
                 if(etParticipants.getText().toString() == "") {
                     Toast.makeText((getApplicationContext()), "Please enter participants numbers.",Toast.LENGTH_SHORT).show();
-                    etParticipants.setError("Enter number");
+                    etParticipants.setError("Email already exists");
                     etParticipants.requestFocus();
                     return;
                 }
@@ -493,7 +518,7 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         //get the date here!!
-        getDate = dayOfMonth + "." + month + "." + year;
+        getDate = dayOfMonth + ":" + month + ":" + year;
     }
 
 

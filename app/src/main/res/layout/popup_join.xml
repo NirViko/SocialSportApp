@@ -64,7 +64,7 @@
         app:layout_constraintTop_toBottomOf="@+id/infoOfDate" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@id/infoOfcity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="90dp"
@@ -76,7 +76,7 @@
         app:layout_constraintTop_toBottomOf="@+id/infoTextViewDate" />
 
     <TextView
-        android:id="@+id/infoOfcity"
+        android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
