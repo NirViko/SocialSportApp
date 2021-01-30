@@ -44,32 +44,48 @@ public class RecyclerView_Config {
         System.out.println("activities: " + activity);
 
         Date currentTime = Calendar.getInstance().getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd:MM:yyyy", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd:MM:yyyy:HH:mm", Locale.getDefault());
         String currentDateandTime = sdf.format(currentTime);
         String currentDay = currentDateandTime.split(":")[0];
         String currentMonth = currentDateandTime.split(":")[1];
         String currentYear = currentDateandTime.split(":")[2];
-        System.out.println("currentDateandTime: " + currentDateandTime);
-        System.out.println("currentYear: " + currentYear);
-        System.out.println("currentMonth: " + Integer.parseInt(currentMonth));
-        System.out.println("currentDay: " + currentDay);
+        String currentHour = currentDateandTime.split(":")[3];
+        String currentMinute = currentDateandTime.split(":")[4];
 
+
+        System.out.println("count: " + activity.size());
         List<ActivitysOfUser> currentList = new ArrayList<>();
         for (ActivitysOfUser activitys : activity) {
             String date = activitys.getGetDate().toString();
-
-            if (Integer.parseInt(currentMonth) < Integer.parseInt(activitys.getGetDate().split(":")[1])) {
+            System.out.println("Current Date: " + currentDateandTime);
+            System.out.println("Activity Date: " + date);
+            if (Integer.parseInt(currentMonth) > Integer.parseInt(activitys.getGetDate().split(":")[1])) {
                 currentList.add(activitys);
             }
-            if (Integer.parseInt(currentYear) < Integer.parseInt(activitys.getGetDate().split(":")[2])) {
+            if (Integer.parseInt(currentYear) > Integer.parseInt(activitys.getGetDate().split(":")[2])) {
                 currentList.add(activitys);
             }
             if (Integer.parseInt(currentMonth) == Integer.parseInt(activitys.getGetDate().split(":")[1])
-                    && Integer.parseInt(currentDay) < Integer.parseInt(activitys.getGetDate().split(":")[0])) {
+                    && Integer.parseInt(currentDay) > Integer.parseInt(activitys.getGetDate().split(":")[0])) {
+                System.out.println("appended");
                 currentList.add(activitys);
+            }
+
+            if (Integer.parseInt(currentMonth) == Integer.parseInt(activitys.getGetDate().split(":")[1])
+                    && Integer.parseInt(currentDay) == Integer.parseInt(activitys.getGetDate().split(":")[0])) {
+                if (Integer.parseInt(currentHour) == Integer.parseInt(activitys.getEndTime().split(":")[0])
+                        && Integer.parseInt(currentMinute) > Integer.parseInt(activitys.getEndTime().split(":")[1]))
+                    currentList.add(activitys);
+            }
+
+            if (Integer.parseInt(currentMonth) == Integer.parseInt(activitys.getGetDate().split(":")[1])
+                    && Integer.parseInt(currentDay) == Integer.parseInt(activitys.getGetDate().split(":")[0])) {
+                if (Integer.parseInt(currentHour) > Integer.parseInt(activitys.getEndTime().split(":")[0]))
+                    currentList.add(activitys);
             }
         }
         for(ActivitysOfUser cur : currentList) {
+            System.out.println("Need to reove " + cur.getActivityID() + " " + cur.getActivityNumber());
             activity.remove(cur);
             FirebaseDatabase.getInstance().getReference().child("Activitys")
                     .child(cur.getActivityID())
@@ -114,7 +130,7 @@ public class RecyclerView_Config {
         }else {
             List<ActivitysOfUser> current = new ArrayList<>();
             for (ActivitysOfUser activitys : activity) {
-                SimpleDateFormat inFormat = new SimpleDateFormat("dd.MM.yy");
+                SimpleDateFormat inFormat = new SimpleDateFormat("dd:MM:yyyy");
                 Date date = null;
                 System.out.println("Date: " + activitys.getGetDate());
                 try {
@@ -141,7 +157,6 @@ public class RecyclerView_Config {
 
 
     }
-
 
     private static TextView startTime;
     private static TextView endTime;
@@ -226,7 +241,6 @@ public class RecyclerView_Config {
             joinButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    System.out.println("Hello world");
                     AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext);
                     final View popupView = LayoutInflater.from(mContext).inflate(R.layout.popup_join, null);
                     TextView typeTV = (TextView) popupView.findViewById(R.id.infoTypeOfActivity);

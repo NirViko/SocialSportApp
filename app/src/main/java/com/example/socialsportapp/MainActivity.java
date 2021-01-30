@@ -2,12 +2,10 @@ package com.example.socialsportapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TimePicker;
 
 public class MainActivity extends AppCompatActivity  {
 
@@ -22,7 +20,7 @@ public class MainActivity extends AppCompatActivity  {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this,register.class);
+                Intent i = new Intent(MainActivity.this, Register.class);
                 startActivity(i);
             }
         });

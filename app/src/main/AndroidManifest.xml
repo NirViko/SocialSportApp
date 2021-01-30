@@ -10,11 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SocialSportApp"
         android:usesCleartextTraffic="true">
-        <activity android:name=".adapterProfile" />
-        <activity android:name=".profile" />
+        <activity android:name=".Profile" />
         <activity android:name=".Adapter" />
         <activity android:name=".homePage" />
-        <activity android:name=".register" />
+        <activity android:name=".Register" />
         <activity android:name=".Login" />
         <activity android:name=".MainActivity">
             <intent-filter>

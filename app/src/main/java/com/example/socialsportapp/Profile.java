@@ -15,7 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class profile extends AppCompatActivity {
+public class Profile extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class profile extends AppCompatActivity {
                     }
                 }
                 RecyclerView recyclerView = findViewById(R.id.recyclerView);
-                recyclerView.setLayoutManager(new LinearLayoutManager(profile.this));
+                recyclerView.setLayoutManager(new LinearLayoutManager(Profile.this));
                 ProfileAdapter adapter = new ProfileAdapter(activitysOfUsers);
                 recyclerView.setAdapter(adapter);
             }

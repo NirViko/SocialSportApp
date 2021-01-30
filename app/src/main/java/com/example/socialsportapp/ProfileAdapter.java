@@ -43,7 +43,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public static TextView starttime2, endtime2, dataForshow, CityOfActivity1, TypeOfActivityToSee2;
-    public static Button infoButton;
+
 
     @NonNull
     @Override

@@ -1,26 +1,19 @@
 package com.example.socialsportapp;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -28,14 +21,12 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.internal.RecaptchaActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,7 +34,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -117,7 +107,7 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
         profileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(homePage.this, profile.class);
+                Intent intent = new Intent(homePage.this, Profile.class);
                 startActivity(intent);
 
             }
@@ -192,6 +182,7 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
+                finish();
                 Intent intTo = new Intent(homePage.this, Login.class);
                 startActivity(intTo);
             }
@@ -381,38 +372,34 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
                 }
                 if(startTime == null || startTime == "") {
                     Toast.makeText((getApplicationContext()), "Please select start time",Toast.LENGTH_SHORT).show();
-                    //date.setError("Email already exists");
-                    //email.requestFocus();
+
                     return;
                 }
                 if(endTime == null || endTime == "") {
                     Toast.makeText((getApplicationContext()), "Please select end time",Toast.LENGTH_SHORT).show();
-                    //date.setError("Email already exists");
-                    //email.requestFocus();
+
                     return;
                 }
                 if(Integer.parseInt(endTime.split(":")[0]) < Integer.parseInt(startTime.split(":")[0])) {
                     Toast.makeText((getApplicationContext()), "Your end time should be later than your start time.",Toast.LENGTH_SHORT).show();
-                    //date.setError("Email already exists");
-                    //email.requestFocus();
+
                     return;
                 }
                 if(Integer.parseInt(endTime.split(":")[0]) == Integer.parseInt(startTime.split(":")[0]) &&
                         Integer.parseInt(endTime.split(":")[1]) < Integer.parseInt(startTime.split(":")[1])) {
                     Toast.makeText((getApplicationContext()), "Your end time should be later than your start time.",Toast.LENGTH_SHORT).show();
-                    //date.setError("Email already exists");
-                    //email.requestFocus();
+
                     return;
                 }
                 if(etAddress.getText().toString().length() < 3) {
                     Toast.makeText((getApplicationContext()), "Please enter address.",Toast.LENGTH_SHORT).show();
-                    etAddress.setError("Email already exists");
+                    etAddress.setError("Invalid address");
                     etAddress.requestFocus();
                     return;
                 }
                 if(etParticipants.getText().toString() == "") {
                     Toast.makeText((getApplicationContext()), "Please enter participants numbers.",Toast.LENGTH_SHORT).show();
-                    etParticipants.setError("Email already exists");
+                    etParticipants.setError("enter number");
                     etParticipants.requestFocus();
                     return;
                 }
@@ -518,7 +505,7 @@ public class homePage extends AppCompatActivity implements DatePickerDialog.OnDa
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         //get the date here!!
-        getDate = dayOfMonth + ":" + month + ":" + year;
+        getDate = dayOfMonth + ":" + month+1 + ":" + year;
     }
 
 
